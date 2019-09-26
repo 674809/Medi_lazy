@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"></RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/star"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/star" />
+
+        <Button
+            android:id="@+id/btn_radio"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:text="@string/radio"
+            android:textColor="@android:color/black"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:id="@+id/btn_usb_media"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="@null"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/usb_upper"
+                android:textColor="#000"
+                android:textSize="25sp" />
+           <LinearLayout
+               android:gravity="center"
+               android:id="@+id/page_num"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="#000"
+               android:orientation="horizontal">
+               <ImageView
+                   android:background="@color/colorAccent"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/home_page_on"/>
+               <ImageView
+                   android:background="@color/colorAccent"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/home_page_on"/>
+               <ImageView
+                   android:background="@color/colorAccent"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/home_page_on"/>
+           </LinearLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_bt_music"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="100"
+            android:gravity="center"
+            android:text="@string/bluetooth"
+            android:textColor="@android:color/black"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/jinhao"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/jinghao" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="usb_video_no_img">NO IMAGE</string>
+    <string name="usb_video_desc">Usb video description</string>
+</resources>

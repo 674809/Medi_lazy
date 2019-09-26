@@ -1,0 +1,4 @@
+<resources>
+    <string name="usb_music_no_img">NO IMAGE</string>
+    <string name="usb_music_desc">Usb music description</string>
+</resources>
