@@ -14,7 +14,7 @@
         </com.egar.mediaui.view.NiceViewPagerIndicator>
     </LinearLayout>
     <com.egar.mediaui.view.CustomViewPager
-        android:id="@+id/usbViewPage"
+        android:id="@+id/usbViepager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

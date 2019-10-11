@@ -1,33 +1,31 @@
 package com.egar.mediaui.radio.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
+import android.widget.FrameLayout;
 
+import com.egar.mediaui.Icallback.ITouchListener;
 import com.egar.mediaui.MainActivity;
 import com.egar.mediaui.R;
 import com.egar.mediaui.engine.Configs;
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
+import com.egar.mediaui.fragment.BaseUsbFragment;
+import com.egar.mediaui.present.Present;
 import com.egar.mediaui.util.LogUtil;
 
 /**
  * PAGE - Usb Music
  */
-public class UsbMusicMainFragment extends BaseMediaFragment  {
+public class UsbMusicMainFragment extends BaseLazyLoadFragment implements ITouchListener{
     // TAG
     private static final String TAG = "UsbMusicMainFrag";
-
-    //==========Widgets in this Fragment==========
-    private View contentV;
 
     //==========Variables in this Fragment==========
     // Attached activity of this fragment.
     private MainActivity mAttachedActivity;
+    private BaseUsbFragment fragment;
+    private FrameLayout frameleft, frameright;
 
     @Override
     public int getPageIdx() {
@@ -52,20 +50,25 @@ public class UsbMusicMainFragment extends BaseMediaFragment  {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView()");
-        contentV = inflater.inflate(R.layout.usb_music_frag_main, container, false);
-        return contentV;
+    public void initView() {
+
+
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        LogUtil.i(TAG, "onActivityCreated()");
-        init();
+    protected int setContentView() {
+        return R.layout.usb_music_frag_main;
     }
+
+    @Override
+    protected void lazyLoad() {
+        fragment = (BaseUsbFragment) Present.getInstatnce().getCurrenFragmen(Configs.PAGE_INDX_USB);
+        fragment.registerMyTouchListener(this);
+        // 将myTouchListener注册到分发列表
+        LogUtil.i("init");
+    }
+
 
     @Override
     public void onResume() {
@@ -73,14 +76,21 @@ public class UsbMusicMainFragment extends BaseMediaFragment  {
         LogUtil.i(TAG, "onResume()");
     }
 
-    private void init() {
-        LogUtil.i("init");
-
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy()");
+        if(fragment !=null){
+            fragment.unRegisterMyTouchListener(this);
+        }
+
+
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return true;
     }
 }

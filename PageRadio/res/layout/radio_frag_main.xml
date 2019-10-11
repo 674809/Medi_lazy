@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:contentDescription="@string/radio_no_img"
+
         android:src="@drawable/radio_desc" />
 
     <TextView

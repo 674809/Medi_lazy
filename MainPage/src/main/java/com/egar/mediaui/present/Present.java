@@ -1,7 +1,7 @@
 package com.egar.mediaui.present;
 
 import com.egar.mediaui.Icallback.IWindowChange;
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
 import com.egar.mediaui.model.FragmentFactory;
 
 import java.util.ArrayList;
@@ -40,17 +40,18 @@ public class Present {
      * 获取MainFragment数据
      * @return
      */
-    public List<BaseMediaFragment> getMainFragmentList(){
+    public List<BaseLazyLoadFragment> getMainFragmentList(){
         return mFragmentFactory.loadFragments();
     }
+
+
     /**
      * 获取UsbFragment数据
      * @return
      */
-    public List<BaseMediaFragment> getUsbFragmentList(){
+    public List<BaseLazyLoadFragment> getUsbFragmentList(){
         return mFragmentFactory.loadUsbFragments();
     }
-
 
 
     /**
@@ -58,15 +59,17 @@ public class Present {
      * @param position
      * @return
      */
-    public BaseMediaFragment getCurrenFragmen(int position){
+    public BaseLazyLoadFragment getCurrenFragmen(int position){
         return mFragmentFactory.getMainCurrentFragmet(position);
     }
+
+
     /**
      * 获取Usb当前fragment
      * @param position
      * @return
      */
-    public BaseMediaFragment getUsbCurrenFragmen(int position){
+    public BaseLazyLoadFragment getCurrenUsbFragmen(int position){
         return mFragmentFactory.getUsbCurrentFragmet(position);
     }
     /**

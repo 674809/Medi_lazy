@@ -1,35 +1,24 @@
 package com.egar.mediaui.radio.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.egar.mediaui.MainActivity;
 import com.egar.mediaui.R;
 import com.egar.mediaui.engine.Configs;
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
 import com.egar.mediaui.util.LogUtil;
 
 /**
  * PAGE - BT Music
  */
-public class BtMusicMainFragment extends BaseMediaFragment {
+public class BtMusicMainFragment extends BaseLazyLoadFragment  {
     // TAG
     private static final String TAG = "BtMusicMainFrag";
 
-    //==========Widgets in this Fragment==========
-    private View contentV;
 
     //==========Variables in this Fragment==========
     // Attached activity of this fragment.
     private MainActivity mAttachedActivity;
-    private static boolean state = true;
-
-    private int test = 0;
 
     @Override
     public int getPageIdx() {
@@ -39,15 +28,13 @@ public class BtMusicMainFragment extends BaseMediaFragment {
     @Override
     public void onWindowChangeFull() {
         LogUtil.i("onWindowChangeFull");
-        state = false;
-        getActivity().recreate();
+
     }
 
     @Override
     public void onWindowChangeHalf() {
         LogUtil.i("onWindowChangeHalf");
-        state = true;
-        getActivity().recreate();
+
     }
 
     @Override
@@ -57,39 +44,26 @@ public class BtMusicMainFragment extends BaseMediaFragment {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LogUtil.i("state=" + state);
-        if (contentV != null) {
-            contentV =null;
-        }
-        if (state) {
-            contentV = inflater.inflate(R.layout.bt_frag_main, container, false);
-        } else {
-            contentV = inflater.inflate(R.layout.bt_frag_full_main, container, false);
-        }
-        return contentV;
-    }
+    public void initView() {
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
     }
 
 
-    private void init() {
+    @Override
+    protected int setContentView() {
+        return R.layout.bt_frag_main;
+    }
+
+    @Override
+    protected void lazyLoad() {
         LogUtil.i("init");
-
     }
-
-
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
+
 }

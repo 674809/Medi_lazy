@@ -13,11 +13,7 @@ import android.view.MotionEvent;
  */
 public class CustomViewPager extends ViewPager {
 
-    public static final int ACTION_DOWN             = 0;
-    static final int ACTION_UP               = 1;
-    public static final int ACTION_MOVE             = 2;
-    private int downX = 0;
-    private boolean noScroll = true;
+    private boolean isCanScroll =  true;
     public CustomViewPager(Context context) {
         super(context);
     }
@@ -26,35 +22,46 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
+    public void setIsScanScroll(boolean isCanScroll) {
+        this.isCanScroll = isCanScroll;
+    }
+
+    @Override
+    public void scrollTo(int x, int y) {
+        super.scrollTo(x, y);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent arg0) {
+        // TODO Auto-generated method stub
+        if (isCanScroll) {
+            return super.onTouchEvent(arg0);
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        // TODO Auto-generated method stub
+        super.setCurrentItem(item, smoothScroll);
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        // TODO Auto-generated method stub
+        super.setCurrentItem(item);
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
-
+        // 是否允许滑动
+        if (isCanScroll) {
             return super.onInterceptTouchEvent(arg0);
+        } else {
+            return false;
+        }
+
     }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-      //  LogUtil.i(super.dispatchTouchEvent(ev)+"::dispatchTouchEvent");
-    /*   switch (ev.getAction()){
-            case 0:
-                LogUtil.i("down");
-                break;
-            case 1:
-                LogUtil.i("up");
-                break;
-            case 2:
-                LogUtil.i("move");
-                break;
-        }*/
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-
-            return super.onTouchEvent(ev);
-    }
-
-
 
 }

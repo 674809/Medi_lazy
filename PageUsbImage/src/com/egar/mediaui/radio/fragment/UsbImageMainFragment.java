@@ -1,23 +1,23 @@
 package com.egar.mediaui.radio.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
+import com.egar.mediaui.Icallback.ITouchListener;
 import com.egar.mediaui.MainActivity;
 import com.egar.mediaui.R;
 import com.egar.mediaui.engine.Configs;
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
+import com.egar.mediaui.fragment.BaseUsbFragment;
+import com.egar.mediaui.present.Present;
 import com.egar.mediaui.util.LogUtil;
 
 /**
  * PAGE - Usb Image
  */
-public class UsbImageMainFragment extends BaseMediaFragment  {
+public class UsbImageMainFragment extends BaseLazyLoadFragment implements ITouchListener {
     // TAG
     private static final String TAG = "UsbImageMainFrag";
 
@@ -27,6 +27,8 @@ public class UsbImageMainFragment extends BaseMediaFragment  {
     //==========Variables in this Fragment==========
     // Attached activity of this fragment.
     private MainActivity mAttachedActivity;
+    private BaseUsbFragment fragment;
+    private FrameLayout frameleft, frameright;
 
     @Override
     public int getPageIdx() {
@@ -50,20 +52,36 @@ public class UsbImageMainFragment extends BaseMediaFragment  {
 
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        contentV = inflater.inflate(R.layout.usb_image_frag_main, container, false);
-        return contentV;
+    public void initView() {
+
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
+    protected int setContentView() {
+        return R.layout.usb_image_frag_main;
     }
 
-    private void init() {
+    @Override
+    protected void lazyLoad() {
+        fragment = (BaseUsbFragment) Present.getInstatnce().getCurrenFragmen(Configs.PAGE_INDX_USB);
+        fragment.registerMyTouchListener(this);
         LogUtil.i("init");
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(fragment !=null){
+            fragment.unRegisterMyTouchListener(this);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+      //  LogUtil.i("onTouchEvent");
+        return true;
     }
 }

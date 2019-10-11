@@ -9,12 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"></RelativeLayout>
+        android:orientation="horizontal">
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -22,6 +23,7 @@
             android:id="@+id/star"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:drawableTop="@drawable/radio_select"
             android:text="@string/star" />
 
         <Button
@@ -32,6 +34,7 @@
             android:layout_weight="100"
             android:gravity="center"
             android:text="@string/radio"
+            android:drawableTop="@drawable/radio_select"
             android:textColor="@android:color/black"
             android:textSize="25sp" />
 
@@ -40,42 +43,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="100"
-            android:background="@null"
             android:gravity="center"
+            android:drawableTop="@drawable/radio_select"
             android:orientation="vertical">
+
             <TextView
+                android:id="@+id/tv_usb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/usb_upper"
-                android:textColor="#000"
+                android:drawableTop="@drawable/radio_select"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
-           <LinearLayout
-               android:gravity="center"
-               android:id="@+id/page_num"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:background="#000"
-               android:orientation="horizontal">
-               <ImageView
-                   android:background="@color/colorAccent"
-                   android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/home_page_on"/>
-               <ImageView
-                   android:background="@color/colorAccent"
-                   android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/home_page_on"/>
-               <ImageView
-                   android:background="@color/colorAccent"
-                   android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/home_page_on"/>
-           </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/page_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -85,7 +74,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-
+            android:drawableTop="@drawable/radio_select"
             android:layout_weight="100"
             android:gravity="center"
             android:text="@string/bluetooth"
@@ -95,6 +84,7 @@
         <Button
             android:id="@+id/jinhao"
             android:layout_width="100dp"
+            android:drawableTop="@drawable/radio_select"
             android:layout_height="match_parent"
             android:text="@string/jinghao" />
     </LinearLayout>

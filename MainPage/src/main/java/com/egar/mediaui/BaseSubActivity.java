@@ -16,6 +16,7 @@ import com.egar.mediaui.lib.BaseFragActivity;
 public class BaseSubActivity extends BaseFragActivity {
     private RelativeLayout contentLayout;
 
+
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,4 +36,6 @@ public class BaseSubActivity extends BaseFragActivity {
             contentLayout.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
     }
+
+
 }

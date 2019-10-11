@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000</color>
     <color name="wiht">#FFF</color>
+    <color name="transparent">#00ffffff</color>
+
+
 </resources>

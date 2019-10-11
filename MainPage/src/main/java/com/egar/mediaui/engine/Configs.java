@@ -9,4 +9,5 @@ public class Configs {
     public static final int PAGE_IDX_USB_VIDEO = 1;
     public static final int PAGE_IDX_USB_IMAGE = 2;
 
+
 }

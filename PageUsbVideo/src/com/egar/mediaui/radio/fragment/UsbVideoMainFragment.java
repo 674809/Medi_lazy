@@ -1,23 +1,22 @@
 package com.egar.mediaui.radio.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.egar.mediaui.Icallback.ITouchListener;
 import com.egar.mediaui.MainActivity;
 import com.egar.mediaui.R;
 import com.egar.mediaui.engine.Configs;
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
+import com.egar.mediaui.fragment.BaseUsbFragment;
+import com.egar.mediaui.present.Present;
 import com.egar.mediaui.util.LogUtil;
 
 /**
  * PAGE - Usb Video
  */
-public class UsbVideoMainFragment extends BaseMediaFragment {
+public class UsbVideoMainFragment extends BaseLazyLoadFragment implements ITouchListener {
     // TAG
     private static final String TAG = "UsbVideoMainFrag";
 
@@ -27,9 +26,11 @@ public class UsbVideoMainFragment extends BaseMediaFragment {
     //==========Variables in this Fragment==========
     // Attached activity of this fragment.
     private MainActivity mAttachedActivity;
-    public  boolean isPlay = false;
+    public boolean isPlay = true;
     int i = 1;
-  
+    private BaseUsbFragment fragment;
+
+
     @Override
     public int getPageIdx() {
         return Configs.PAGE_IDX_USB_VIDEO;
@@ -52,40 +53,54 @@ public class UsbVideoMainFragment extends BaseMediaFragment {
 
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        contentV = inflater.inflate(R.layout.usb_video_frag_main, container, false);
-        return contentV;
+    public void initView() {
+
+        LogUtil.i("init");
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
+    protected int setContentView() {
+        return R.layout.usb_video_frag_main;
     }
 
-
-
-    private void init() {
+    @Override
+    protected void lazyLoad() {
+        fragment = (BaseUsbFragment) Present.getInstatnce().getCurrenFragmen(Configs.PAGE_INDX_USB);
+        fragment.registerMyTouchListener(this);
         LogUtil.i("init");
 
-        contentV.findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                i++;
-                if (i % 2 == 0) {
-                    isPlay = true;
-                } else {
-                    isPlay = false;
-                }
-                LogUtil.i("isPlay =" + isPlay);
-            }
-        });
+    init();
     }
 
+    private void init() {
+            findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    i++;
+                    if(i %2 == 0){
+                        isPlay = false;
+                    }else {
+                        isPlay = true;
+                    }
+                    LogUtil.i("isplay ="+isPlay);
+                }
 
-    public boolean getpalyState(){
+            });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+       // LogUtil.i("onTouchEvent");
         return isPlay;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(fragment !=null){
+            fragment.unRegisterMyTouchListener(this);
+        }
     }
 }

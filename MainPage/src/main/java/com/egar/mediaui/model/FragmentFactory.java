@@ -1,6 +1,6 @@
 package com.egar.mediaui.model;
 
-import com.egar.mediaui.fragment.BaseMediaFragment;
+import com.egar.mediaui.fragment.BaseLazyLoadFragment;
 import com.egar.mediaui.fragment.BaseUsbFragment;
 import com.egar.mediaui.radio.fragment.BtMusicMainFragment;
 import com.egar.mediaui.radio.fragment.RadioMainFragment;
@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class FragmentFactory {
     private static FragmentFactory mFragmentFactory;
-    private List<BaseMediaFragment> mListFrags;
-    private List<BaseMediaFragment> mUsbListFrags;
+    private List<BaseLazyLoadFragment> mListFrags;
+    private List<BaseLazyLoadFragment> mListUsbFrags;
 
    /* public static FragmentFactory getInstance() {
 
@@ -32,51 +32,59 @@ public class FragmentFactory {
         return mFragmentFactory;
     }*/
 
-    public List<BaseMediaFragment> loadFragments() {
-        if(mListFrags == null){
+    public List<BaseLazyLoadFragment> loadFragments() {
+        if (mListFrags == null) {
             mListFrags = new ArrayList<>();
-        }else {
+        } else {
             mListFrags.clear();
         }
-
-        BaseMediaFragment fragRadio = new RadioMainFragment();
+        BaseLazyLoadFragment fragRadio = new RadioMainFragment();
         mListFrags.add(fragRadio);
 
-        BaseMediaFragment usbfrag = new BaseUsbFragment();
-        mListFrags.add(usbfrag);
-
-        BaseMediaFragment fragBTMusic = new BtMusicMainFragment();
+        BaseLazyLoadFragment fragUsbMusic = new BaseUsbFragment();
+        mListFrags.add(fragUsbMusic);
+        BaseLazyLoadFragment fragBTMusic = new BtMusicMainFragment();
         mListFrags.add(fragBTMusic);
         return mListFrags;
     }
 
     /**
      * 根据position 获取对应页面
+     *
      * @param position
      * @return
      */
-    public BaseMediaFragment getMainCurrentFragmet(int position){
+    public BaseLazyLoadFragment getMainCurrentFragmet(int position) {
         return mListFrags.get(position);
     }
 
-    public BaseMediaFragment getUsbCurrentFragmet(int position){
-        return mUsbListFrags.get(position);
-    }
-    public List<BaseMediaFragment> loadUsbFragments(){
-        if(mUsbListFrags == null){
-            mUsbListFrags = new ArrayList<>();
-        }else {
-            mUsbListFrags.clear();
+
+    public List<BaseLazyLoadFragment> loadUsbFragments() {
+        if (mListUsbFrags == null) {
+            mListUsbFrags = new ArrayList<>();
+        } else {
+            mListUsbFrags.clear();
         }
-        BaseMediaFragment fragUsbMusic = new UsbMusicMainFragment();
-        mUsbListFrags.add(fragUsbMusic);
+        BaseLazyLoadFragment fragUsbMusic = new UsbMusicMainFragment();
+        mListUsbFrags.add(fragUsbMusic);
 
-        BaseMediaFragment fragUsbVideo = new UsbVideoMainFragment();
-        mUsbListFrags.add(fragUsbVideo);
+        BaseLazyLoadFragment fragUsbVideo = new UsbVideoMainFragment();
+        mListUsbFrags.add(fragUsbVideo);
 
-        BaseMediaFragment fragUsbImage = new UsbImageMainFragment();
-        mUsbListFrags.add(fragUsbImage);
-        return mUsbListFrags;
+        BaseLazyLoadFragment fragUsbImage = new UsbImageMainFragment();
+        mListUsbFrags.add(fragUsbImage);
+
+
+        return mListUsbFrags;
     }
 
+    /**
+     * 根据position 获取对应页面
+     *
+     * @param position
+     * @return
+     */
+    public BaseLazyLoadFragment getUsbCurrentFragmet(int position) {
+        return  mListUsbFrags.get(position);
+    }
 }

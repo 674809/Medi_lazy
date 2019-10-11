@@ -11,13 +11,5 @@
         android:contentDescription="@string/usb_music_no_img"
         android:src="@drawable/usb_music_desc" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/usb_music_desc"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>
