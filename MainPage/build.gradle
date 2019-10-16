@@ -69,5 +69,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:25.4.0'
     // Modules
     implementation project(':LibCommon')
-
+    implementation files('libs/LibApiMusic.jar')
+    implementation files('libs/LibApiScanner.jar')
+    implementation files('libs/LibCommon.jar')
+    implementation files('libs/LibMedia.jar')
 }

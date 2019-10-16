@@ -1,5 +1,8 @@
 package com.egar.mediaui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -20,11 +23,14 @@ import com.egar.mediaui.fragment.BaseLazyLoadFragment;
 import com.egar.mediaui.fragment.BaseUsbFragment;
 import com.egar.mediaui.lib.NoScrollViewPager;
 import com.egar.mediaui.present.Present;
-import com.egar.mediaui.radio.fragment.UsbImageMainFragment;
-import com.egar.mediaui.radio.fragment.UsbMusicMainFragment;
-import com.egar.mediaui.radio.fragment.UsbVideoMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.BtMusicMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.RadioMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbImageMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbMusicMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbVideoMainFragment;
 import com.egar.mediaui.util.LogUtil;
 import com.egar.mediaui.util.SharedPreferencesUtils;
+import com.egar.mediaui.view.MyButton;
 
 import java.util.List;
 
@@ -44,7 +50,8 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
     //present;
     private Present mPresent;
     //Button
-    private Button mBtnRadio, mBtnBtMusic, star, jinhao;
+    private MyButton star,jinhao;
+    private Button mBtnRadio, mBtnBtMusic ;
     private LinearLayout mBtnUsbMedia, mpage_num;
     private ImageView imageView;
     private TextView tv_usb;
@@ -56,6 +63,8 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
     private int usbCurrentPage = Configs.PAGE_IDX_USB_MUSIC;
     //底部指示点
     private ImageView[] mImageView;
+    //全屏标记
+    public boolean isFull = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +84,8 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
         mBtnRadio = (Button) findViewById(R.id.btn_radio);
         mBtnUsbMedia = (LinearLayout) findViewById(R.id.btn_usb_media);
         mBtnBtMusic = (Button) findViewById(R.id.btn_bt_music);
-        star = (Button) findViewById(R.id.star);
-        jinhao = (Button) findViewById(R.id.jinhao);
+        star = (MyButton) findViewById(R.id.star);
+        jinhao = (MyButton) findViewById(R.id.jinhao);
         mpage_num = (LinearLayout) findViewById(R.id.page_num);
         tv_usb = (TextView) findViewById(R.id.tv_usb);
 
@@ -97,13 +106,14 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
 
         // View pager
         mVPager = (NoScrollViewPager) findViewById(R.id.v_pager);
-        mVPager.setOffscreenPageLimit(3);
+       mVPager.setOffscreenPageLimit(3);
         mVpFragStateAdapter = new MainFragAdapter<>(getSupportFragmentManager());
         mVPager.setAdapter(mVpFragStateAdapter);
         mVpFragStateAdapter.refresh(Present.getInstatnce().getMainFragmentList());
         mVPager.addOnPageChangeListener((mViewPagerOnChange = new ViewPagerOnChange()));
         initPage();
         addPagePoit();
+        requestPermission();
     }
 
     /**
@@ -119,12 +129,24 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (mFragCurrent instanceof BaseUsbFragment) {
-            ((BaseUsbFragment) mFragCurrent).dispatchTouchEvent(ev);
-        }
+            if(mFragCurrent instanceof BaseUsbFragment){
+                ((BaseUsbFragment) mFragCurrent).dispatchTouchEvent(ev);
+            }
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mFragCurrent instanceof BaseUsbFragment) {
+            ((BaseUsbFragment) mFragCurrent).onBackPressed();
+            return;
+        }else if(mFragCurrent instanceof RadioMainFragment){
+            ((RadioMainFragment) mFragCurrent).onBackPressed();
+        }else if(mFragCurrent instanceof BtMusicMainFragment){
+            ((BtMusicMainFragment) mFragCurrent).onBackPressed();
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View v) {
@@ -152,6 +174,7 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
         }
     }
 
+
     /**
      * 设置按钮背景颜色
      */
@@ -172,6 +195,7 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
             mBtnBtMusic.setTextColor(getResources().getColor(R.color.black));
             mBtnUsbMedia.setBackgroundResource(R.drawable.tuoyuan);
             tv_usb.setTextColor(getResources().getColor(R.color.wiht));
+            tv_usb.setCompoundDrawables(null,null,null,null);
             mpage_num.setVisibility(View.VISIBLE);
         } else if (position == Configs.PAGE_IDX_BT_MUSIC) {
             mBtnRadio.setBackgroundResource(R.color.transparent);
@@ -199,7 +223,7 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
         public void onPageSelected(int position) {
             //可以同步按钮状态
             SharedPreferencesUtils.setParam(getApplicationContext(), "currentPage", position);
-            Log.i(TAG, "onPageSelected(" + position + ")");
+          //  Log.i(TAG, "onPageSelected(" + position + ")");
             try {
                 mFragCurrent = mPresent.getCurrenFragmen(position);// mListFrags.get(position);
                 if (mFragCurrent instanceof BaseUsbFragment) {
@@ -281,10 +305,29 @@ public class MainActivity extends BaseSubActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * 返回屏幕是否为全屏
+     */
+    public boolean getScreenState(){
+        return isFull;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresent.Destory();
         overridePendingTransition(0, 0);
     }
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                String[] requestPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                this.requestPermissions(requestPermissions, 0);
+            }
+        }
+    }
+
 }

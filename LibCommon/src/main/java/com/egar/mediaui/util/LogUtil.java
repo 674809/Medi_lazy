@@ -9,7 +9,7 @@ import android.util.Log;
  * @see {@link }
  */
 public class LogUtil {
-    public static final String TAG = "Media";
+    public static final String TAG = "MediaPlayer";
     public static final int LOG_LEVEL_NONE = 0;     //不输出任和log
     public static final int LOG_LEVEL_DEBUG = 1;    //调试 蓝色
     public static final int LOG_LEVEL_INFO = 2;     //提现 绿色
@@ -151,7 +151,7 @@ public class LogUtil {
                 }
               //  return "[ Thread:" + Thread.currentThread().getName() + ", at " + st.getClassName() + "." + st.getMethodName()
                //        + "(" + st.getFileName() + ":" + st.getLineNumber() + ")" + " ]";
-             return "(" + st.getFileName() + ":" + st.getLineNumber() + "）";
+             return "[" + st.getFileName() + ":" + st.getLineNumber() + "]";
             }
         }
         return null;
@@ -161,7 +161,7 @@ public class LogUtil {
      * 输出格式定义
      */
     private static String getMsgFormat(String msg) {
-        return msg + " ;;" + getFunctionName();
+        return msg + ";" + getFunctionName();
     }
 
 }

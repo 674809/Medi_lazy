@@ -1,4 +1,9 @@
 <resources>
     <string name="usb_music_no_img">NO IMAGE</string>
     <string name="usb_music_desc">Usb music description</string>
+    <string name="folders">文件夹集</string>
+    <string name="back">Back</string>
+    <string name="unknow">未知</string>
+    <string name="play_error">播放失败</string>
+    <string name="unknown_title">未知歌曲</string>
 </resources>

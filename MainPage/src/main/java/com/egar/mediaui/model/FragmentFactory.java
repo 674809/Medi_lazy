@@ -2,11 +2,13 @@ package com.egar.mediaui.model;
 
 import com.egar.mediaui.fragment.BaseLazyLoadFragment;
 import com.egar.mediaui.fragment.BaseUsbFragment;
-import com.egar.mediaui.radio.fragment.BtMusicMainFragment;
-import com.egar.mediaui.radio.fragment.RadioMainFragment;
-import com.egar.mediaui.radio.fragment.UsbImageMainFragment;
-import com.egar.mediaui.radio.fragment.UsbMusicMainFragment;
-import com.egar.mediaui.radio.fragment.UsbVideoMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.BtMusicMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.RadioMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbFolderFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbImageMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbMusicMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbMusicPlayerFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbVideoMainFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class FragmentFactory {
     private static FragmentFactory mFragmentFactory;
     private List<BaseLazyLoadFragment> mListFrags;
     private List<BaseLazyLoadFragment> mListUsbFrags;
+    private List<BaseLazyLoadFragment> mUsbMusicFrgas;
 
    /* public static FragmentFactory getInstance() {
 
@@ -87,4 +90,24 @@ public class FragmentFactory {
     public BaseLazyLoadFragment getUsbCurrentFragmet(int position) {
         return  mListUsbFrags.get(position);
     }
+
+    public List<BaseLazyLoadFragment> loadUsbMusicFragments() {
+        if (mUsbMusicFrgas == null) {
+            mUsbMusicFrgas = new ArrayList<>();
+        } else {
+            mUsbMusicFrgas.clear();
+        }
+        UsbMusicPlayerFragment UsbMusic = new UsbMusicPlayerFragment();
+        mUsbMusicFrgas.add(UsbMusic);
+
+        UsbFolderFragment UsbFolder = new UsbFolderFragment();
+        mUsbMusicFrgas.add(UsbFolder);
+
+        return mUsbMusicFrgas;
+    }
+
+    public BaseLazyLoadFragment getUsbMuiscChildFragment(int position){
+        return mUsbMusicFrgas.get(position);
+    }
+
 }

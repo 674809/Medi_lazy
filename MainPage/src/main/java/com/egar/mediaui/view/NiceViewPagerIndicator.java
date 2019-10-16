@@ -296,16 +296,18 @@ public class NiceViewPagerIndicator extends HorizontalScrollView {
      * 属性初始化完成了绑定ViewPager 并执行各项初始化操作
      * @param viewPager
      */
+
     public void setUpViewPager(@NonNull ViewPager viewPager){
         this.mViewPager = viewPager;
         // 在adapter为空时抛出异常 解决后面报的空指针检查
         if (mViewPager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
-        viewPager.addOnPageChangeListener(mNicePageChangeListener);
-        init();
-        initViews();
+            viewPager.addOnPageChangeListener(mNicePageChangeListener);
+            init();
+            initViews();
     }
+
 
     /**
      * 进行初始化

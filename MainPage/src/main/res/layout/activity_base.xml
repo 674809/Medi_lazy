@@ -12,80 +12,87 @@
         android:orientation="horizontal">
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
+        android:background="@drawable/bt_main_bg"
         android:orientation="horizontal">
 
-        <Button
+        <com.egar.mediaui.view.MyButton
             android:id="@+id/star"
-            android:layout_width="100dp"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:drawableTop="@drawable/radio_select"
+            android:background="@drawable/bt_left_bg"
             android:text="@string/star" />
-
-        <Button
-            android:id="@+id/btn_radio"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:id="@+id/relayout_main"
+            android:layout_width="match_parent"
+            android:layout_marginRight="130dp"
             android:layout_height="match_parent"
-            android:layout_weight="100"
-            android:gravity="center"
-            android:text="@string/radio"
-            android:drawableTop="@drawable/radio_select"
-            android:textColor="@android:color/black"
-            android:textSize="25sp" />
-
-        <LinearLayout
-            android:id="@+id/btn_usb_media"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="100"
-            android:gravity="center"
-            android:drawableTop="@drawable/radio_select"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_usb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/usb_upper"
+            android:layout_toRightOf="@+id/star"
+           android:gravity="center"
+            >
+            <Button
+                android:layout_marginRight="50dp"
+                android:id="@+id/btn_radio"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:text="@string/radio"
+                android:background="@null"
                 android:drawableTop="@drawable/radio_select"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:textSize="25sp" />
 
-            <LinearLayout
-                android:id="@+id/page_num"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+          <LinearLayout
+               android:layout_marginRight="50dp"
+                android:layout_toRightOf="@id/btn_radio"
+                android:id="@+id/btn_usb_media"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_usb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/usb_upper"
+                    android:drawableTop="@drawable/radio_select"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:id="@+id/page_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+                </LinearLayout>
             </LinearLayout>
+            <Button
+                android:layout_toRightOf="@id/btn_usb_media"
+                android:id="@+id/btn_bt_music"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:drawableTop="@drawable/radio_select"
+                android:gravity="center"
+                android:background="@null"
+                android:text="@string/bluetooth"
+                android:textColor="@android:color/black"
+                android:textSize="25sp" />
 
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/btn_bt_music"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:drawableTop="@drawable/radio_select"
-            android:layout_weight="100"
-            android:gravity="center"
-            android:text="@string/bluetooth"
-            android:textColor="@android:color/black"
-            android:textSize="25sp" />
-
-        <Button
+        </RelativeLayout>
+        <com.egar.mediaui.view.MyButton
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bt_right_bg"
             android:id="@+id/jinhao"
-            android:layout_width="100dp"
-            android:drawableTop="@drawable/radio_select"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:text="@string/jinghao" />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -1,7 +1,9 @@
 package com.egar.mediaui.present;
 
 import com.egar.mediaui.Icallback.IWindowChange;
+import com.egar.mediaui.engine.Configs;
 import com.egar.mediaui.fragment.BaseLazyLoadFragment;
+import com.egar.mediaui.fragment.BaseUsbFragment;
 import com.egar.mediaui.model.FragmentFactory;
 
 import java.util.ArrayList;
@@ -55,6 +57,18 @@ public class Present {
 
 
     /**
+     * 获取Usbmusic数据
+     * @return
+     */
+    public List<BaseLazyLoadFragment> getUsbMusicFragmentList(){
+        return mFragmentFactory.loadUsbMusicFragments();
+    }
+    public BaseLazyLoadFragment getUsbMuiscChiledFragment(int position){
+        return mFragmentFactory.getUsbMuiscChildFragment(position);
+    }
+
+
+    /**
      * 获取Main当前fragment
      * @param position
      * @return
@@ -71,6 +85,23 @@ public class Present {
      */
     public BaseLazyLoadFragment getCurrenUsbFragmen(int position){
         return mFragmentFactory.getUsbCurrentFragmet(position);
+    }
+
+    /**
+     * 获取UsbFragment
+     * @return
+     */
+    public BaseUsbFragment getUSbFragment(){
+        return (BaseUsbFragment) mFragmentFactory.getMainCurrentFragmet(Configs.PAGE_INDX_USB);
+    }
+
+    /**
+     * 设置usbIinditer 隐藏与显示
+     * @param ishide
+     */
+    public void setInditeHide(boolean ishide){
+        BaseUsbFragment fragment1 = (BaseUsbFragment) Present.getInstatnce().getUSbFragment();
+        fragment1.setIndicatorVisib(ishide);
     }
     /**
      * 添加全屏半屏监听

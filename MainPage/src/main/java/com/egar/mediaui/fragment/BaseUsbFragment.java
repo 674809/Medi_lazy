@@ -6,13 +6,18 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import com.egar.mediaui.Icallback.IKeyBack;
 import com.egar.mediaui.Icallback.ITouchListener;
 import com.egar.mediaui.MainActivity;
 import com.egar.mediaui.R;
 import com.egar.mediaui.adapter.UsbFragAdapter;
 import com.egar.mediaui.engine.Configs;
 import com.egar.mediaui.present.Present;
+import com.egar.mediaui.usbmuisc.fragment.UsbImageMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbMusicMainFragment;
+import com.egar.mediaui.usbmuisc.fragment.UsbVideoMainFragment;
 import com.egar.mediaui.util.LogUtil;
 import com.egar.mediaui.util.SharedPreferencesUtils;
 import com.egar.mediaui.view.CustomViewPager;
@@ -28,7 +33,7 @@ import java.util.List;
  * @see {@link }
  */
 public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.OnPageChangeListener {
-    private String TAG = "BaseMediaFragment";
+    private String TAG = "BaseUsbFragment";
     //==========Widgets in this Fragment==========
     private View contentV;
     //==========Variables in this Fragment==========
@@ -40,12 +45,16 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
     private UsbFragAdapter adapter;
     private BaseLazyLoadFragment mUsbCurrenfrag;
     private BaseUsbFragment baseUsbFragment;
+    private LinearLayout usb_frag;
     private
     List<String> mTitles = new ArrayList<>();
     //回调touche事件
     private ArrayList<ITouchListener> touchListeners = new ArrayList<>();
-    private ITouchListener iTouchListener;
 
+    private ITouchListener iTouchListener;
+    //back事件
+    private IKeyBack iKeyBack;
+    private  boolean isFrist = true;
     @Override
     public int getPageIdx() {
         return Configs.PAGE_INDX_USB;
@@ -67,21 +76,7 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
 
     @Override
     public void initView() {
-        mTitles.add("UsbMusic");
-        mTitles.add("UsbVideo");
-        mTitles.add("UsbImage");
-        mUsbViewPager = findViewById(R.id.usbViepager);
-        adapter = new UsbFragAdapter(mAttachedActivity.getSupportFragmentManager());
-        adapter.refresh(Present.getInstatnce().getUsbFragmentList(), mTitles);
-        mUsbViewPager.setOffscreenPageLimit(3);
-        mUsbViewPager.setAdapter(adapter);
-        indicator = (NiceViewPagerIndicator) findViewById(R.id.niceIndicator2);
-        indicator.setIndicatorLengthType(NiceViewPagerIndicator.IndicatorType.EQUAL_TEXT)
-                .setIndicatorShapeType(NiceViewPagerIndicator.IndicatorShape.LINEAR)
-                .setIndicatorColor(Color.BLUE);
-        indicator.setUpViewPager(mUsbViewPager);
-        mUsbViewPager.addOnPageChangeListener(this);
-        initPage();
+
     }
 
     /**
@@ -100,16 +95,53 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
 
     @Override
     protected void lazyLoad() {
-        LogUtil.i("init");
+        if(isFrist){
+            LogUtil.i("Usb init");
+            mTitles.add("UsbMusic");
+            mTitles.add("UsbVideo");
+            mTitles.add("UsbImage");
+            mUsbViewPager = findViewById(R.id.usbViepager);
+            usb_frag = findViewById(R.id.usb_frag);
+            adapter = new UsbFragAdapter(getChildFragmentManager());
+            indicator = (NiceViewPagerIndicator) findViewById(R.id.niceIndicator2);
+            indicator.setIndicatorLengthType(NiceViewPagerIndicator.IndicatorType.EQUAL_TEXT)
+                    .setIndicatorShapeType(NiceViewPagerIndicator.IndicatorShape.LINEAR)
+                    .setIndicatorColor(Color.BLUE);
+            adapter.refresh(Present.getInstatnce().getUsbFragmentList(), mTitles);
+            mUsbViewPager.setAdapter(adapter);
+            mUsbViewPager.setOffscreenPageLimit(3);
+            mUsbViewPager.addOnPageChangeListener(this);
+            indicator.setUpViewPager(mUsbViewPager);
+            initPage();
+            isFrist = false;
+        }else {
+            if(getUsbCurrenfrag() instanceof UsbMusicMainFragment ||
+                    getUsbCurrenfrag() instanceof UsbVideoMainFragment ||
+                    getUsbCurrenfrag() instanceof UsbImageMainFragment){
+                getUsbCurrenfrag().lazyLoad();
+            }
+            LogUtil.i("Usb lazyLoad");
+        }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
-
+    public void setIndicatorVisib(boolean visable){
+        if(visable){
+            indicator.setVisibility(View.GONE);
+        }else {
+            indicator.setVisibility(View.VISIBLE);
+        }
+    }
     @Override
     public void onPageSelected(int position) {
         //可以同步按钮状态
@@ -131,6 +163,7 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
     public void dispatchTouchEvent(MotionEvent ev) {
         for (ITouchListener listener : touchListeners) {
             if (listener != null) {
+              //  LogUtil.i("dispatchTouchEvent ="+listener.onTouchEvent(ev));
                 mUsbViewPager.setIsScanScroll(listener.onTouchEvent(ev));
             }
         }
@@ -140,6 +173,7 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
      * 提供给Fragment通过getActivity()方法来注册自己的触摸事件的方法
      */
     public void registerMyTouchListener(ITouchListener listener) {
+       LogUtil.i("listener =>"+touchListeners.size());
         touchListeners.add(listener);
     }
 
@@ -150,7 +184,31 @@ public class BaseUsbFragment extends BaseLazyLoadFragment implements ViewPager.O
         touchListeners.remove(listener);
     }
 
+    // key back事件
+    public void onBackPressed(){
+        iKeyBack.onBack();
+    }
+    public void registBackEvent(IKeyBack iKeyBack){
+        this.iKeyBack = iKeyBack;
+    }
+    public void unRegistBackEvent(){
+        this.iKeyBack = null;
+    }
+
     public BaseLazyLoadFragment getUsbCurrenfrag() {
         return mUsbCurrenfrag;
     }
+
+    @Override
+    protected void stopLoad() {
+        super.stopLoad();
+        LogUtil.i("Usb stopLoad");
+        if(getUsbCurrenfrag() instanceof UsbMusicMainFragment ||
+                getUsbCurrenfrag() instanceof UsbVideoMainFragment ||
+                getUsbCurrenfrag() instanceof UsbImageMainFragment){
+            getUsbCurrenfrag().stopLoad();
+        }
+    }
+
+
 }
